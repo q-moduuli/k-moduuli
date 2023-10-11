@@ -33,46 +33,51 @@ function shuffleArray(array) {
         .map((e) => e[0])
 }
 
+var oikeaVastaus=""
+
 function showQuestion(question) {
     let kysymykset=getRandomItemsFromArray(lyhenteet, 3)
     let suunta = Math.random()>=0.5
 
     let kysymys = suunta ? kysymykset[0][0] : kysymykset[0][1]
-    
+    let vastaukset = kysymykset.map((e,i) =>[i,(suunta ? e[1] : e[0])])
 
-    document.getElementById('question').textContent = kysymys;
+    oikeaVastaus=kysymykset[0]
+    if (suunta) oikeaVastaus.reverse()
+    oikeaVastaus=oikeaVastaus[0] + " on " +oikeaVastaus[1]
+
+    document.getElementById('question').textContent = kysymys +" on";
     const choicesDiv = document.getElementById('choices');
     choicesDiv.innerHTML = '';
-    question.choices.forEach(choice => {
-        const button = document.createElement('button');
-        button.textContent = choice;
+    shuffleArray(vastaukset).forEach(choice => {
+        const button = document.createElement('div');
+        button.textContent = choice[1];
         button.classList.add('choice');
-        button.addEventListener('click', handleChoice);
+        button.addEventListener('click', choice[0]==0 ? handleCorrectChoice : handleIncorrectChoice);
         choicesDiv.appendChild(button);
     });
 }
 
-function handleChoice(event) {
-    const selectedChoice = event.target.textContent;
-    const correctAnswer = shuffledQuestions[currentQuestionIndex].correctAnswer;
-    if (selectedChoice === correctAnswer) {
-        alert('Correct!');
+function handleChoice(oikein)
+{
+    let e = document.getElementById('tulos')
+    if (oikein) {
+        e.innerHTML="Oikein! "+oikeaVastaus
     } else {
-        alert(`Wrong! The correct answer is ${correctAnswer}`);
+        e.innerHTML="Väärin! "+oikeaVastaus
     }
+    
+    showQuestion()
 }
 
-function nextQuestion() {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < shuffledQuestions.length) {
-        showQuestion(shuffledQuestions[currentQuestionIndex]);
-    } else {
-        alert('Congratulations! You have completed the questionnaire.');
-        currentQuestionIndex = 0;
-        shuffledQuestions = shuffleArray(questions);
-        showQuestion(shuffledQuestions[currentQuestionIndex]);
-    }
+function handleCorrectChoice(event) {
+    handleChoice(true)
 }
+
+function handleIncorrectChoice(event) {
+    handleChoice(false)
+}
+
 
 // Initial question
 showQuestion();

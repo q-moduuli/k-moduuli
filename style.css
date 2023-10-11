@@ -11,6 +11,6 @@ body {
     text-align: center;
 }
 
-button {
-    margin-top: 20px;
+.choice:hover {
+    font-weight: bold;
 }
