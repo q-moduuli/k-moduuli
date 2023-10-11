@@ -1,30 +1,46 @@
-const questions = [
-    {
-        question: "What is the capital of France?",
-        choices: ["Paris", "Berlin", "London", "Madrid"],
-        correctAnswer: "Paris"
-    },
-    {
-        question: "Which planet is known as the Red Planet?",
-        choices: ["Earth", "Mars", "Jupiter", "Venus"],
-        correctAnswer: "Mars"
-    },
-    {
-        question: "What is the largest mammal in the world?",
-        choices: ["Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
-        correctAnswer: "Blue Whale"
-    }
-];
 
-let currentQuestionIndex = 0;
-let shuffledQuestions = shuffleArray(questions);
+const lyhenteet = [
+    ["QRG","Taajuus"],
+    ["QRK","Signaalin luettavuus"],
+    ["QRL","Taajuus käytössä"],
+    ["QRM","Häiriöitä"]
+]
+
+function getRandomItemsFromArray(arr, numItems) {
+    if (numItems >= arr.length) {
+        return arr;
+    } else {
+        let result = [];
+        let indices = new Set();
+
+        while (indices.size < numItems) {
+            let randomIndex = Math.floor(Math.random() * arr.length);
+            if (!indices.has(randomIndex)) {
+                indices.add(randomIndex);
+                result.push(arr[randomIndex]);
+            }
+        }
+
+        return result;
+    }
+}
+
 
 function shuffleArray(array) {
-    return array.sort(() => Math.random() - 0.5);
+    return array
+        .map((e) => [e,Math.random()])
+        .sort((a,b) => a[1] - b[1])
+        .map((e) => e[0])
 }
 
 function showQuestion(question) {
-    document.getElementById('question').textContent = question.question;
+    let kysymykset=getRandomItemsFromArray(lyhenteet, 3)
+    let suunta = Math.random()>=0.5
+
+    let kysymys = suunta ? kysymykset[0][0] : kysymykset[0][1]
+    
+
+    document.getElementById('question').textContent = kysymys;
     const choicesDiv = document.getElementById('choices');
     choicesDiv.innerHTML = '';
     question.choices.forEach(choice => {
@@ -59,4 +75,4 @@ function nextQuestion() {
 }
 
 // Initial question
-showQuestion(shuffledQuestions[currentQuestionIndex]);
+showQuestion();
