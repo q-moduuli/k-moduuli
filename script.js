@@ -1,9 +1,9 @@
 
-const lyhenteet = [
+const qlyhenteet = [
     ["QRG","Taajuus"],
     ["QRK","Signaalin luettavuus"],
     ["QRL","Taajuus käytössä"],
-    ["QRM","Häiriöitä"]
+    ["QRM","Häiriöitä"],
     ["QRN","Ilmastohäiriö"],
     ["QRO","Lisää tehoa"],
     ["QRP","Vähemmän tehoa"],
@@ -21,8 +21,10 @@ const lyhenteet = [
     ["QSY","Siirry taajuudelle"],
     ["QTC","Sanoma sinulle"],
     ["QTH","Paikka (GPS)"],
-    ["QTR","Aika on"],
+    ["QTR","Aika on"]
+]
 
+const muutlyhenteet=[
     ["ABT","Suunnilleen"],
     ["AGN","Again"],
     ["ANT","Antenni"],
@@ -64,6 +66,9 @@ function getRandomItemsFromArray(arr, numItems) {
             if (!indices.has(randomIndex)) {
                 indices.add(randomIndex);
                 result.push(arr[randomIndex]);
+                if (!arr[randomIndex]) {
+                    console.log(randomIndex, arr[randomIndex])
+                }
             }
         }
 
@@ -80,15 +85,23 @@ function shuffleArray(array) {
 }
 
 var oikeaVastaus=""
+var edellinen=""
 
 function showQuestion(question) {
-    let kysymykset=getRandomItemsFromArray(lyhenteet, 3)
-    let suunta = Math.random()>=0.5
+    let kysymykset=getRandomItemsFromArray(qlyhenteet, 3)
+    console.log(kysymykset)
+    let suunta = Math.random()>=0.5 
 
-    let kysymys = suunta ? kysymykset[0][0] : kysymykset[0][1]
+    let kysymys = suunta ? kysymykset[0][0] : kysymykset[0][1]  
     let vastaukset = kysymykset.map((e,i) =>[i,(suunta ? e[1] : e[0])])
 
-    oikeaVastaus=kysymykset[0]
+    if (kysymys===edellinen) {
+        showQuestion()
+        return
+    }
+    edellinen=kysymys
+
+    oikeaVastaus=kysymykset[0].slice()
     if (suunta) oikeaVastaus.reverse()
     oikeaVastaus=oikeaVastaus[0] + " on " +oikeaVastaus[1]
 
@@ -109,8 +122,12 @@ function handleChoice(oikein)
     let e = document.getElementById('tulos')
     if (oikein) {
         e.innerHTML="Oikein! "+oikeaVastaus
+        e.classList.remove("incorrect")
+        e.classList.add("correct")
     } else {
         e.innerHTML="Väärin! "+oikeaVastaus
+        e.classList.remove("correct")
+        e.classList.add("incorrect")
     }
     
     showQuestion()

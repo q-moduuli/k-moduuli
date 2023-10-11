@@ -14,3 +14,11 @@ body {
 .choice:hover {
     font-weight: bold;
 }
+
+.correct {
+    color: green
+}
+
+.incorrect {
+    color: red
+}
