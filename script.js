@@ -20,7 +20,7 @@ const qlyhenteet = [
     ["QSX","Kuuntele taajuudella"],
     ["QSY","Siirry taajuudelle"],
     ["QTC","Sanoma sinulle"],
-    ["QTH","Paikka (GPS)"],
+    ["QTH","Paikka (koordinaatit)"],
     ["QTR","Aika on"]
 ]
 
@@ -52,6 +52,10 @@ const muutlyhenteet=[
     ["RX","Vastaanotin"],
     ["VE","Virhemerkki"],
     ["73","Parhaat terveiset"]
+]
+
+maat=[
+    ["",""],
 ]
 
 function getRandomItemsFromArray(arr, numItems) {
