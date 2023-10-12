@@ -55,7 +55,32 @@ const muutlyhenteet=[
 ]
 
 maat=[
-    ["",""],
+    ["OH,OF-OJ","Suomi"],
+    ["SM","Ruotsi"],
+    ["LA","Norja"],
+    ["OZ","Tanska"],
+    ["ES","Viro"],
+    ["YL","Latvia"],
+    ["LY","Liettua"],
+    ["SP","Puola"],
+    ["DA-DR","Saksa"],
+    ["HA,HG","Unkari"],
+    ["OK","Tsekinmaa"],
+    ["OE","Itävalta"],
+    ["G,M","Englanti"],
+    ["EI","Irlanti"],
+    ["F","Ranska"],
+    ["EA-EH","Espanja"],
+    ["I-IZ","Italia"],
+    ["JA-JS","Japani"],
+    ["VE","Kanada"],
+    ["K,N,W","Yhdysvallat"]
+]
+
+const paketit=[
+    [1,muutlyhenteet],
+    [2,qlyhenteet],
+    [2,maat]
 ]
 
 function getRandomItemsFromArray(arr, numItems) {
@@ -91,11 +116,26 @@ function shuffleArray(array) {
 var oikeaVastaus=""
 var edellinen=""
 
-function showQuestion(question) {
-    let lyhenteet=(Math.random()<0.3)?muutlyhenteet:qlyhenteet
+function cumsum(arr) {
+    let sum=0;
+    return arr.map(num => sum+=num)
+}
 
-    let kysymykset=getRandomItemsFromArray(lyhenteet, 3)
-    console.log(kysymykset)
+function valitsePaketti()
+{
+    let sum=0
+    summat=paketit.map(p => [sum+=p[0],p[1]])
+
+    let valinta=Math.random()*sum
+    let paketti = summat.find(p => p[0] >= valinta)
+
+    return paketti[1]
+}
+
+function showQuestion(question) {
+    let paketti=valitsePaketti()
+
+    let kysymykset=getRandomItemsFromArray(paketti, 3)
     let suunta = Math.random()>=0.5 
 
     let kysymys = suunta ? kysymykset[0][0] : kysymykset[0][1]  
