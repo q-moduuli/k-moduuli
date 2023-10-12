@@ -88,7 +88,9 @@ var oikeaVastaus=""
 var edellinen=""
 
 function showQuestion(question) {
-    let kysymykset=getRandomItemsFromArray(qlyhenteet, 3)
+    let lyhenteet=(Math.random()<0.3)?muutlyhenteet:qlyhenteet
+
+    let kysymykset=getRandomItemsFromArray(lyhenteet, 3)
     console.log(kysymykset)
     let suunta = Math.random()>=0.5 
 
