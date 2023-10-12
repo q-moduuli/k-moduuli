@@ -51,7 +51,12 @@ const muutlyhenteet=[
     ["TX","Lähetin"],
     ["RX","Vastaanotin"],
     ["VE","Virhemerkki"],
-    ["73","Parhaat terveiset"]
+    ["73","Parhaat terveiset"],
+    ["AR","Lähetyksen loppu"],
+    ["K","Vuoro sinulle"],
+    ["KN","Vuoro vain sinulle"],
+    ["SK","Yhteyden loppu"],
+    ["SK CL","Yhteyden loppu + suljen asemani"]
 ]
 
 maat=[
